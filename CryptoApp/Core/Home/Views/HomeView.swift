@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// Endpoint
+/*
+ https://api.coingecko.com/api/v3/coins/markets
+ ?vs_currency=usd
+ &order=market_cap_desc
+ &per_page=250
+ &page=1
+ &sparkline=true
+ &price_change_percentage=24h
+
+ */
+
 struct HomeView: View {
     
     @State private var showPortfolio: Bool = false
@@ -21,7 +33,6 @@ struct HomeView: View {
             // content layer
             VStack {
                 navigationView
-                
                 Spacer(minLength: 0)
             }
         }
@@ -37,10 +48,9 @@ struct HomeView: View {
 }
 
 
-
 extension HomeView {
     private var navigationView: some View {
-        HStack {    
+        HStack {
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
                 .background(
                     CircleButtonAnimationView(animate: $showPortfolio)
