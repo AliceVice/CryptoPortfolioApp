@@ -85,8 +85,8 @@ struct SparklineIn7d: Codable {
 
 
 extension Coin {
-    /// Returns a new instance of Coin with updated currentHoldings.
-    func updatedHoldings(to amount: Double) -> Coin {
+    /// Returns a new instance of Coin with currentHoldings set up
+    func setHoldings(to amount: Double) -> Coin {
         // Use the memberwise initializer to create a copy,
         // but override currentHoldings.
         Coin(
@@ -122,6 +122,39 @@ extension Coin {
     }
 }
 
+extension Coin {
+    /// A preview coin to use in SwiftUI previews
+    static let previewCoin = Coin(
+        id: "ethereum",
+        symbol: "eth",
+        name: "Ethereum",
+        image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628",
+        currentPrice: 2247.73,
+        marketCap: 272074560894,
+        marketCapRank: 2,
+        fullyDilutedValuation: 272074560894,
+        totalVolume: 20562212382,
+        high24h: 2317.43,
+        low24h: 2168.29,
+        priceChange24h: 63.08,
+        priceChangePercentage24h: 2.88739,
+        marketCapChange24h: 7663235971,
+        marketCapChangePercentage24h: 2.89823,
+        circulatingSupply: 120594948.925222,
+        totalSupply: 120594948.925222,
+        maxSupply: nil,
+        ath: 4878.26,
+        athChangePercentage: -54.44211,
+        athDate: "2021-11-10T14:24:19.604Z",
+        atl: 0.432979,
+        atlChangePercentage: 513188.93075,
+        atlDate: "2015-10-20T00:00:00.000Z",
+        lastUpdated: "2025-03-06T15:12:10.739Z",
+        sparklineIn7d: SparklineIn7d(price: [2352.10319364983, 2343.65490657594, 2337.50428472527]),
+        priceChangePercentage24hInCurrency: 2.88738829935313,
+        currentHoldings: nil
+    )
+}
 
 
 
