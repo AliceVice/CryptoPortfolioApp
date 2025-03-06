@@ -26,6 +26,8 @@ struct ContentView: View {
                 
                 Text("Green Color")
                     .foregroundStyle(Color.theme.green)
+                
+                .foregroundStyle(.accent)
             }
             .font(.headline)
             
