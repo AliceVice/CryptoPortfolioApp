@@ -32,7 +32,7 @@ struct CoinRowView: View {
                 Text("\(coin.currentPrice.asCurrencyWith6Decimals())")
                     .bold()
                     .foregroundStyle(Color.theme.accent)
-                Text("\(coin.priceChangePercentage24h ?? 0.0)%")
+                Text("\(coin.priceChangePercentage24h ?? 0.0) %")
                     .foregroundStyle(
                         (coin.priceChangePercentage24h ?? 0.0) >= 0 ?
                         Color.theme.green : Color.theme.red

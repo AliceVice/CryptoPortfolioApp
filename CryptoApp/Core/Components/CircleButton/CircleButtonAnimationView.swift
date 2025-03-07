@@ -10,6 +10,7 @@ import SwiftUI
 struct CircleButtonAnimationView: View {
     
     @Binding var animate: Bool
+//    @State var animate: Bool = false
     
     var body: some View {
         Circle()
@@ -20,10 +21,14 @@ struct CircleButtonAnimationView: View {
 //                animate.toggle()
 //            }
             .animation(animate ? .easeOut(duration: 1.0) : nil, value: animate)
+//            .animation(.easeOut(duration: 1.0), value: animate)
     }
 }
 
 #Preview {
+//    CircleButtonAnimationView()
     CircleButtonAnimationView(animate: .constant(false))
         .frame(width: 100, height: 100)
+    
+    
 }
