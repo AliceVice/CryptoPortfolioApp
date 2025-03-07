@@ -63,7 +63,6 @@ extension CoinRowView {
             Text((coin.currentHoldings ?? 0).asNumberString())
         }
         .foregroundStyle(Color.theme.accent)
-        .padding()
     }
     
     private var rightColumn: some View {
@@ -78,6 +77,6 @@ extension CoinRowView {
                     Color.theme.green : Color.theme.red
                 )
         }
-        .frame(width: (UIScreen.current?.bounds.width ?? 120) / 3.5)
+        .frame(width: (UIScreen.current?.bounds.width ?? 120) / 3.5, alignment: .trailing)
     }
 }
