@@ -132,7 +132,7 @@ extension Coin {
         lastUpdated: "2025-03-06T15:12:10.739Z",
         sparklineIn7d: SparklineIn7d(price: [2352.10319364983, 2343.65490657594, 2337.50428472527]),
         priceChangePercentage24hInCurrency: 2.88738829935313,
-        currentHoldings: nil
+        currentHoldings: 2.5
     )
 }
 

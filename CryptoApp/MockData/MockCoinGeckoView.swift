@@ -42,20 +42,20 @@ struct TestApiView: View {
             .navigationTitle("CoinGecko Markets")
             .onAppear {
 //                viewModel.fetchCoins()
-                CoinsFileManager.downloadAndSaveCoins { success in
-                    if success {
-                        print("Download and save succeeded.")
-                    } else {
-                        print("Download or save failed.")
-                    }
-                }
+//                CoinsFileManager.downloadAndSaveCoins { success in
+//                    if success {
+//                        print("Download and save succeeded.")
+//                    } else {
+//                        print("Download or save failed.")
+//                    }
+//                }
             }
         }
     }
 }
 
-//#Preview {
-//    TestApiView()
-//}
+#Preview {
+    TestApiView()
+}
 
 
