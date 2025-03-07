@@ -16,7 +16,6 @@ import SwiftUI
  &page=1
  &sparkline=true
  &price_change_percentage=24h
-
  */
 
 struct HomeView: View {
@@ -96,7 +95,7 @@ extension HomeView {
     private var allCoinsList: some View {
         List(viewModel.allCoins) { coin in
             CoinRowView(coin: coin, showHoldingsColumn: showPortfolio)
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
+                .listRowInsets(.init(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
         .listStyle(.plain)
     }
@@ -104,7 +103,7 @@ extension HomeView {
     private var portfolioCoinsList: some View {
         List(viewModel.portfolioCoins) { portfolioCoin in
             CoinRowView(coin: portfolioCoin, showHoldingsColumn: showPortfolio)
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 10))
+                .listRowInsets(.init(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
         .listStyle(.plain)
     }

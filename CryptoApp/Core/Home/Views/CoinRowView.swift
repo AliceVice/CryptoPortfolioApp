@@ -80,3 +80,5 @@ extension CoinRowView {
         .frame(width: (UIScreen.current?.bounds.width ?? 120) / 3.5, alignment: .trailing)
     }
 }
+
+

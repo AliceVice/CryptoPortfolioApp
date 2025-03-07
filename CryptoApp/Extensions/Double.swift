@@ -79,10 +79,10 @@ extension Double {
     /// Convert a Double into String representation
     /// ```
     /// Convert:
-    /// 87.4356 to "%87,43"
+    /// 87.4356 to "87,43%"
     /// ```
     public func asPersentString() -> String {
-        return "%" + asNumberString()
+        return asNumberString() + "%"
     }
 }
 
