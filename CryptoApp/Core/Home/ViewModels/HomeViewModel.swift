@@ -10,6 +10,13 @@ import Combine
 
 final class HomeViewModel: ObservableObject {
     
+    @Published var statistics: [Statistic] = [
+        Statistic(title: "Bitcoin", value: "123456"),
+        Statistic(title: "Ethereum", value: "123456", percentageChange: 12.532),
+        Statistic(title: "Tether", value: "123456", percentageChange: -92.532),
+        Statistic(title: "XRP", value: "123456", percentageChange: 15.232),
+    ]
+    
     /// A shared instance for SwiftUI previews.
     static let preview: HomeViewModel = {
         let viewModel = HomeViewModel()

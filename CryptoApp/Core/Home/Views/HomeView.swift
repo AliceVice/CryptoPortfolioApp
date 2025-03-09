@@ -33,6 +33,8 @@ struct HomeView: View {
             VStack {
                 navigationView
                 
+                HomeStatsView(showPortfolio: $showPortfolio)
+                
                 SearchBarView(searchText: $viewModel.searchText)
                 
                 titlesView
