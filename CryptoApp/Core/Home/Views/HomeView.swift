@@ -21,19 +21,26 @@ struct HomeView: View {
             
             // content layer
             VStack {
+                
+                // Navigation
                 navigationView
                 
+                // Market Statistics
                 HomeStatsView(showPortfolio: $showPortfolio)
                 
+                // Search bar
                 SearchBarView(searchText: $viewModel.searchText)
                 
+                // Titles for the list
                 titlesView
                 
+                // Coins list
                 if !showPortfolio {
                     allCoinsList
                         .transition(.move(edge: .leading))
                 }
                 
+                // Portfolio List
                 if showPortfolio {
                     portfolioCoinsList
                         .transition(.move(edge: .trailing))
