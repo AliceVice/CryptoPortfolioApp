@@ -25,7 +25,6 @@ final class CoinDataService {
         coinSubscription = NetworkManager.download(url: url)
             .decode(type: [Coin].self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkManager.handleCompletion, receiveValue: { [weak self] receivedCoins in
-                print("Extrected coins successfuly \(type(of: self))")
                 self?.allCoins = receivedCoins
                 self?.coinSubscription?.cancel()
             })
@@ -33,3 +32,4 @@ final class CoinDataService {
     }
     
 }
+

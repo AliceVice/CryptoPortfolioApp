@@ -7,21 +7,11 @@
 
 import SwiftUI
 
-// Endpoint
-/*
- https://api.coingecko.com/api/v3/coins/markets
- ?vs_currency=usd
- &order=market_cap_desc
- &per_page=250
- &page=1
- &sparkline=true
- &price_change_percentage=24h
- */
-
 struct HomeView: View {
     
     @EnvironmentObject private var viewModel: HomeViewModel
-    @State private var showPortfolio: Bool = false
+    @State private var showPortfolio: Bool = false // animate right
+    @State private var showPortfolioView: Bool = false // new sheet
     
     var body: some View {
         ZStack {
@@ -51,7 +41,9 @@ struct HomeView: View {
                 
                 Spacer(minLength: 0)
             }
-            
+        }
+        .sheet(isPresented: $showPortfolioView) {
+            PortfolioView()
         }
     }
 }
@@ -74,6 +66,11 @@ extension HomeView {
                     CircleButtonAnimationView(animate: $showPortfolio)
                 )
                 .animation(.none, value: showPortfolio)
+                .onTapGesture {
+                    if showPortfolio {
+                        showPortfolioView.toggle()
+                    }
+                }
             
             Spacer()
             Text(showPortfolio ? "Portfolio" : "Live Prices")
