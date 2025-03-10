@@ -47,9 +47,9 @@ final class LocalFileManager {
         
         if !FileManager.default.fileExists(atPath: url.path()) {
             do {
-                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
             } catch let error {
-//                print("Error creating directory \(name): \(error.localizedDescription)\n \(url.pathComponents)")
+                print("Error creating directory \(name): \(error.localizedDescription)")
             }
         }
     }
