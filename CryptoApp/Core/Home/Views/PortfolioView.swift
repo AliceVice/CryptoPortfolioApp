@@ -38,6 +38,11 @@ struct PortfolioView: View {
                     saveButton
                 }
             }
+            .onChange(of: viewModel.searchText) { oldValue, newValue in
+                if newValue == "" {
+                    removeSelectedCoin()
+                }
+            }
         }
     }
 }
@@ -143,11 +148,13 @@ extension PortfolioView {
         
         // save the portfolio
          
-        // show checkmark and remove selected coin
+        // show checkmark
         withAnimation(.easeIn) {
             showCheckMark = true
-            removeSelectedCoin()
         }
+        
+        // remove selected coin
+        removeSelectedCoin()
         
         // hide keyboard
         UIApplication.shared.endEditing()
@@ -161,8 +168,10 @@ extension PortfolioView {
     }
     
     private func removeSelectedCoin() {
-        selectedCoin = nil
-        quantityText = ""
-        viewModel.searchText = ""
+        withAnimation(.easeOut) {
+            selectedCoin = nil
+            quantityText = ""
+            viewModel.searchText = ""
+        }
     }
 }

@@ -24,6 +24,7 @@ final class HomeViewModel: ObservableObject {
     
 //    private let coinDataService: CoinDataService = .init()
 //    private let marketDataService: MarketDataService = .init()
+    
     private let coinDataService: MockCoinDataService = .init()
     private let marketDataService: MockMarketDataService = .init()
     
