@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoinImageView: View {
     
-    @StateObject var viewModel: CoinImageViewModel
+    @StateObject private var viewModel: CoinImageViewModel
     
     init(coin: Coin) {
         _viewModel = StateObject(wrappedValue: CoinImageViewModel(coin: coin))

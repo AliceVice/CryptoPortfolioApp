@@ -23,8 +23,10 @@ final class HomeViewModel: ObservableObject {
     @Published var searchText: String = ""
     
 //    private let coinDataService: CoinDataService = .init()
+//    private let marketDataService: MarketDataService = .init()
     private let coinDataService: MockCoinDataService = .init()
-    private let marketDataService: MarketDataService = .init()
+    private let marketDataService: MockMarketDataService = .init()
+    
     private var cancellables: Set<AnyCancellable> = []
     
     public init() {

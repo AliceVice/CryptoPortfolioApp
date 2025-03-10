@@ -49,7 +49,7 @@ final class LocalFileManager {
             do {
                 try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false)
             } catch let error {
-                print("Error creating directory \(name): \(error.localizedDescription)")
+//                print("Error creating directory \(name): \(error.localizedDescription)\n \(url.pathComponents)")
             }
         }
     }
