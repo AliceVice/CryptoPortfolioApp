@@ -37,10 +37,10 @@ struct Coin: Identifiable, Decodable {
     let lastUpdated: String?
     let sparklineIn7d: SparklineIn7d?
     let priceChangePercentage24hInCurrency: Double?
-    let currentHoldings: Double?
+    let currentHoldingsAmount: Double?
     
     var currentHoldingsValue: Double {
-        return (currentHoldings ?? 0) * currentPrice
+        return (currentHoldingsAmount ?? 0) * currentPrice
     }
     
     var rank: Int {
@@ -75,7 +75,7 @@ struct Coin: Identifiable, Decodable {
         case lastUpdated = "last_updated"
         case sparklineIn7d = "sparkline_in_7d"
         case priceChangePercentage24hInCurrency = "price_change_percentage_24h_in_currency"
-        case currentHoldings
+        case currentHoldingsAmount
     }
 }
 
@@ -99,7 +99,7 @@ extension Coin {
             ath: ath, athChangePercentage: athChangePercentage, athDate: athDate, atl: atl,
             atlChangePercentage: atlChangePercentage, atlDate: atlDate, lastUpdated: lastUpdated,
             sparklineIn7d: sparklineIn7d, priceChangePercentage24hInCurrency: priceChangePercentage24hInCurrency,
-            currentHoldings: amount
+            currentHoldingsAmount: amount
         )
     }
     
@@ -132,7 +132,7 @@ extension Coin {
         lastUpdated: "2025-03-06T15:12:10.739Z",
         sparklineIn7d: SparklineIn7d(price: [2352.10319364983, 2343.65490657594, 2337.50428472527]),
         priceChangePercentage24hInCurrency: 2.88738829935313,
-        currentHoldings: 2.5
+        currentHoldingsAmount: 2.5
     )
 }
 

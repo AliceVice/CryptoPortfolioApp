@@ -10,17 +10,24 @@ import Combine
 
 final class HomeViewModel: ObservableObject {
     
-    @Published var statistics: [Statistic] = []
-    
     /// A shared instance for SwiftUI previews.
     static let preview: HomeViewModel = {
         let viewModel = HomeViewModel()
         return viewModel
     }()
+        
+    enum SortOption {
+        case rank, rankReversed
+        case holdings, holdingsReversed
+        case price, priceReversed
+    }
     
+    @Published var statistics: [Statistic] = []
     @Published var shownCoins: [Coin] = []
     @Published var portfolioCoins: [Coin] = []
     @Published var searchText: String = ""
+    @Published var isLoading: Bool = false
+    @Published var sortOption: SortOption = .holdings
     
 //    private let coinDataService: CoinDataService = .init()
 //    private let marketDataService: MarketDataService = .init()
@@ -28,30 +35,36 @@ final class HomeViewModel: ObservableObject {
     private let coinDataService: MockCoinDataService = .init()
     private let marketDataService: MockMarketDataService = .init()
     private let portfolioDataService: PortfolioDataService = .init()
-    
     private var cancellables: Set<AnyCancellable> = []
     
     public init() {
         addSubscribers()
     }
     
+    // MARK: - Public section
+    
+    public func updatePortfolio(coin: Coin, amount: Double) {
+        portfolioDataService.updatePortfolio(coin: coin, amount: amount)
+    }
+    
+    public func reloadData() {
+        isLoading = true
+        coinDataService.getCoins()
+        marketDataService.getMarketData()
+        HapticManager.notification(type: .success)
+    }
+    
+    // MARK: - Private section
+    
     private func addSubscribers() {
         
         // Updates allCoins
         $searchText
-            .combineLatest(coinDataService.$allCoins)
+            .combineLatest(coinDataService.$allCoins, $sortOption)
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
-            .map(filterCoins)
+            .map(filterAndSortCoins)
             .sink { [weak self] filteredCoins in
                 self?.shownCoins = filteredCoins
-            }
-            .store(in: &cancellables)
-        
-        // get market statistics
-        marketDataService.$marketData
-            .map(mapMarketData)
-            .sink { [weak self] returnedStats in
-                self?.statistics = returnedStats
             }
             .store(in: &cancellables)
         
@@ -68,13 +81,50 @@ final class HomeViewModel: ObservableObject {
                 }
             }
             .sink { [weak self] returnedCoins in
-                self?.portfolioCoins = returnedCoins
+                guard let self else { return }
+                self.portfolioCoins = self.sortPortfolioCoinsIfNeeded(coins: returnedCoins)
+            }
+            .store(in: &cancellables)
+        
+        // get market statistics
+        marketDataService.$marketData
+            .combineLatest($portfolioCoins)
+            .map(mapMarketData)
+            .sink { [weak self] returnedStats in
+                guard let self else { return }
+                self.statistics = returnedStats
+                self.isLoading = false
             }
             .store(in: &cancellables)
     }
     
-    public func updatePortfolio(coin: Coin, amount: Double) {
-        portfolioDataService.updatePortfolio(coin: coin, amount: amount)
+    private func filterAndSortCoins(text: String, coins allCoins: [Coin], sort: SortOption) -> [Coin] {
+        let filteredCoins = filterCoins(text: text, coins: allCoins)
+        
+        // sort coins
+        switch sort {
+        case .rank, .holdings:
+            return filteredCoins.sorted { $0.rank < $1.rank }
+        case .rankReversed, .holdingsReversed:
+            return filteredCoins.sorted { $0.rank > $1.rank }
+        case .price:
+            return filteredCoins.sorted { $0.currentPrice > $1.currentPrice }
+        case .priceReversed:
+            return filteredCoins.sorted { $0.currentPrice < $1.currentPrice }
+        }
+    }
+    
+    private func sortPortfolioCoinsIfNeeded(coins: [Coin]) -> [Coin] {
+        
+        // will only sort by holdings or reversedHoldings if needed
+        switch sortOption {
+        case .holdings:
+            return coins.sorted { $0.currentHoldingsValue > $1.currentHoldingsValue }
+        case .holdingsReversed:
+            return coins.sorted { $0.currentHoldingsValue < $1.currentHoldingsValue }
+        default:
+            return coins
+        }
     }
     
     private func filterCoins(text: String, coins allCoins: [Coin]) -> [Coin] {
@@ -93,20 +143,64 @@ final class HomeViewModel: ObservableObject {
         return filteredCoins
     }
     
-    private func mapMarketData(_ marketData: MarketData?) -> [Statistic] {
+    private func mapMarketData(_ marketData: MarketData?, _ portfolioCoins: [Coin]) -> [Statistic] {
         var stats: [Statistic] = []
         
         guard let data = marketData else { return stats }
 
-        let marketCap = Statistic(title: "Market Cap",
-                                  value: data.marketCap,
-                                  percentageChange: data.marketCapChangePercentage24HUsd)
+        let marketCap = Statistic(
+            title: "Market Cap",
+            value: data.marketCap,
+            percentageChange: data.marketCapChangePercentage24HUsd
+        )
         let volume = Statistic(title: "24h Volume", value: data.volume)
         let bitcoinDominance = Statistic(title: "BTC Dominance", value: data.btcDominance)
-        let portfolioValue = Statistic(title: "Portfolio Value", value: "$0.00", percentageChange: 0)
         
-        stats.append(contentsOf: [marketCap, volume, bitcoinDominance, portfolioValue])
+        
+        let portfolioValue =
+            portfolioCoins
+                .map { $0.currentHoldingsValue }
+                .reduce(0, +)
+        
+        let previousValue =
+            portfolioCoins.map { coin -> Double in
+                let currentValue = coin.currentHoldingsValue
+                let percentChange = (coin.priceChangePercentage24h ?? 0) / 100
+                let previousValue = currentValue / (1 + percentChange)
+                return previousValue
+            }
+            .reduce(0, +)
+        
+        let percentageChange = ((portfolioValue - previousValue) / previousValue) * 100
+        
+        let portfolio = Statistic(
+            title: "Portfolio Value",
+            value: portfolioValue.asCurrencyWith2Decimals(),
+            percentageChange: percentageChange
+        )
+        
+        stats.append(contentsOf: [marketCap, volume, bitcoinDominance, portfolio])
         return stats
+    }
+    
+    private func calculatePortfolioValue() -> (portfolioValue: Double, percentageChange: Double) {
+        let portfolioValue =
+            portfolioCoins
+                .map { $0.currentHoldingsValue }
+                .reduce(0, +)
+        
+        let previousValue =
+            portfolioCoins.map { coin -> Double in
+                let currentValue = coin.currentHoldingsValue
+                let percentChange = coin.priceChangePercentage24h ?? 0 / 100
+                let previousValue = currentValue / (1 + percentChange)
+                return previousValue
+            }
+            .reduce(0, +)
+        
+        let percentageChange = ((portfolioValue - previousValue) / previousValue) * 100
+        
+        return (portfolioValue, percentageChange)
     }
     
 }

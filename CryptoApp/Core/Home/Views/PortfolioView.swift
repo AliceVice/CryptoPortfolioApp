@@ -85,7 +85,7 @@ extension PortfolioView {
         selectedCoin = coin
         
         if let portfolioCoin = viewModel.portfolioCoins.first(where: { $0.id == coin.id }),
-           let amount = portfolioCoin.currentHoldings
+           let amount = portfolioCoin.currentHoldingsAmount
         {
             quantityText = "\(amount)"
         } else {
@@ -142,7 +142,7 @@ extension PortfolioView {
             })
             .opacity(
                 (selectedCoin != nil && !quantityText.isEmpty &&
-                 selectedCoin?.currentHoldings != Double(quantityText)) ?
+                 selectedCoin?.currentHoldingsAmount != Double(quantityText)) ?
                 1 : 0
             )
         }

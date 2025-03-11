@@ -13,10 +13,10 @@ class MockCoinDataService: ObservableObject {
     @Published var allCoins: [Coin] = []
     
     init() {
-        loadMockData()
+        getCoins()
     }
     
-    private func loadMockData() {
+    public func getCoins() {
         // Ensure 'coins.json' is included in your app bundle (e.g., Build Phases > Copy Bundle Resources).
         guard let url = Bundle.main.url(forResource: "coins", withExtension: "json") else {
             print("Could not find coins.json in the app bundle.")

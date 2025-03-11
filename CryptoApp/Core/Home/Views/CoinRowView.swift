@@ -60,7 +60,7 @@ extension CoinRowView {
     private var centerColumn: some View {
         VStack(alignment: .trailing) {
             Text(coin.currentHoldingsValue.asCurrencyWith2Decimals())
-            Text((coin.currentHoldings ?? 0).asNumberString())
+            Text((coin.currentHoldingsAmount ?? 0).asNumberString())
         }
         .foregroundStyle(Color.theme.accent)
     }

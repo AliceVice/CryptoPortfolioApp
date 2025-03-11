@@ -13,10 +13,10 @@ class MockMarketDataService: ObservableObject {
     @Published var marketData: MarketData? = nil
     
     init() {
-        loadMockData()
+        getMarketData()
     }
     
-    private func loadMockData() {
+    public func getMarketData() {
         // Make sure "market_data.json" is in your app bundle
         // (e.g., in the Mock folder and included under Build Phases > Copy Bundle Resources).
         guard let url = Bundle.main.url(forResource: "market_data", withExtension: "json") else {
