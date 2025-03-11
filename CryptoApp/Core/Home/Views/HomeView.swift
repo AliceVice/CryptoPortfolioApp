@@ -12,6 +12,8 @@ struct HomeView: View {
     @EnvironmentObject private var viewModel: HomeViewModel
     @State private var showPortfolio: Bool = false // animate right
     @State private var showPortfolioView: Bool = false // new sheet
+    @State private var selectedCoin: Coin? = nil
+    @State private var showDetailView: Bool = false
     
     var body: some View {
         ZStack {
@@ -52,7 +54,13 @@ struct HomeView: View {
         .sheet(isPresented: $showPortfolioView) {
             PortfolioView()
         }
-    }
+        .navigationDestination(isPresented: $showDetailView) {
+            // We are 100% sure that selected coin has a value
+            if let selectedCoin {
+                DetailView(coin: selectedCoin)
+            }
+        }
+    } // body
 }
 
 
@@ -66,6 +74,7 @@ struct HomeView: View {
 
 
 extension HomeView {
+        
     private var navigationView: some View {
         HStack {
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
@@ -102,14 +111,19 @@ extension HomeView {
     
     private var allCoinsList: some View {
         List(viewModel.shownCoins) { coin in
-            NavigationLink {
-                DetailView(coin: coin)
-            } label: {
-                CoinRowView(coin: coin, showHoldingsColumn: showPortfolio)
-                    .listRowInsets(.init(top: 0, leading: 10, bottom: 0, trailing: 10))
-            }
+            CoinRowView(coin: coin, showHoldingsColumn: showPortfolio)
+                .listRowInsets(.init(top: 0, leading: 10, bottom: 0, trailing: 10))
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    segue(coin: coin)
+                }
         }
         .listStyle(.plain)
+    }
+    
+    private func segue(coin: Coin) {
+        selectedCoin = coin
+        showDetailView = true
     }
     
     private var portfolioCoinsList: some View {
