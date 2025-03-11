@@ -53,7 +53,8 @@ struct MarketData: Decodable {
 // JSON Data
 /*
  
- URL: https://api.coingecko.com/api/v3/global
+ URL:
+ https://api.coingecko.com/api/v3/global
  
  JSON Response :
  {
