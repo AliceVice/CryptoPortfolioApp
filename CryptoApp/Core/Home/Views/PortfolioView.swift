@@ -141,7 +141,7 @@ extension PortfolioView {
                 Text("Save".uppercased())
             })
             .opacity(
-                (selectedCoin != nil &&
+                (selectedCoin != nil && !quantityText.isEmpty &&
                  selectedCoin?.currentHoldings != Double(quantityText)) ?
                 1 : 0
             )
