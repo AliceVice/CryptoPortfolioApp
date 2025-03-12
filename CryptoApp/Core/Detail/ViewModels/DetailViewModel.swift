@@ -41,6 +41,13 @@ final class DetailViewModel: ObservableObject {
                 self.additionalStatistics = returnedStatisticArrays.additional
             }
             .store(in: &cancellables)
+        
+        
+        coinDetailService.$coinDetail
+            .sink { [weak self] returnedCoinDetail in
+                self?.coinDetail = returnedCoinDetail
+            }
+            .store(in: &cancellables)
     }
     
     private func makeOverviewStats(coin: Coin) -> [Statistic] {

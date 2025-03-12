@@ -29,11 +29,11 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var sortOption: SortOption = .holdings
     
-    private let coinDataService: CoinDataService = .init()
-    private let marketDataService: MarketDataService = .init()
+//    private let coinDataService: CoinDataService = .init()
+//    private let marketDataService: MarketDataService = .init()
     
-//    private let coinDataService: MockCoinDataService = .init()
-//    private let marketDataService: MockMarketDataService = .init()
+    private let coinDataService: MockCoinDataService = .init()
+    private let marketDataService: MockMarketDataService = .init()
     private let portfolioDataService: PortfolioDataService = .init()
     private var cancellables: Set<AnyCancellable> = []
     
