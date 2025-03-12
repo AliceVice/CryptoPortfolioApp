@@ -130,6 +130,10 @@ extension HomeView {
         List(viewModel.portfolioCoins) { portfolioCoin in
             CoinRowView(coin: portfolioCoin, showHoldingsColumn: showPortfolio)
                 .listRowInsets(.init(top: 0, leading: 10, bottom: 0, trailing: 10))
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    segue(coin: portfolioCoin)
+                }
         }
         .listStyle(.plain)
     }

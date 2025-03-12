@@ -22,9 +22,10 @@ struct DetailView: View {
     
     var body: some View {
         ScrollView {
+            ChartView(coin: viewModel.coin)
+                .frame(height: (UIScreen.current?.bounds.height ?? 400) / 3)
+            
             VStack(spacing: 20) {
-                Text("Hi")
-                    .frame(height: 150)
                 
                 overviewSection
                 
@@ -33,7 +34,14 @@ struct DetailView: View {
             .padding()
         }
         .navigationTitle(viewModel.coin.name)
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                toolbarTrailingItem
+            }
+        }
     }
+    
 }
 
 #Preview {
@@ -84,6 +92,16 @@ extension DetailView {
                         StatisticView(stat: stat)
                     }
                 }
+        }
+    }
+    
+    private var toolbarTrailingItem: some View {
+        HStack(spacing: 8) {
+            Text(viewModel.coin.symbol.uppercased())
+                .font(.headline)
+                .foregroundStyle(Color.theme.secondaryText)
+            CoinImageView(coin: viewModel.coin)
+                .frame(width: 25, height: 25)
         }
     }
 }
