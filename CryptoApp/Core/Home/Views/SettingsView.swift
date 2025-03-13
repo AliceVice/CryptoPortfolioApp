@@ -17,22 +17,37 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                swiftFulThinkingSection
-                coinGeckoSection
-                developerSection
-                applicationSection
-            }
-            .tint(.blue)
-            .listStyle(.grouped)
-            .navigationTitle("Settings")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    XMarkButton()
+            ZStack {
+                
+                // Background layer
+                Color.theme.background
+                    .ignoresSafeArea()
+                
+                // Content layer
+                List {
+                    swiftFulThinkingSection
+                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
+                    coinGeckoSection
+                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
+                    developerSection
+                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
+                    applicationSection
+                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
+                }
+                .scrollContentBackground(.hidden)
+                .font(.headline)
+                .tint(.blue)
+                .listStyle(.grouped)
+                .navigationTitle("Settings")
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        XMarkButton()
+                    }
                 }
             }
         }
     }
+    
 }
 
 #Preview {
@@ -106,6 +121,7 @@ extension SettingsView {
         } header: {
             Text("Developer")
         }
+        .zIndex(2.0)
     }
     
     private var applicationSection: some View {

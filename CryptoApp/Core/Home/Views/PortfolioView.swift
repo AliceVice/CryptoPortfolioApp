@@ -28,6 +28,9 @@ struct PortfolioView: View {
                     
                 }
             }
+            .background(
+                Color.theme.background
+            )
             .navigationTitle("Edit Portfolio")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

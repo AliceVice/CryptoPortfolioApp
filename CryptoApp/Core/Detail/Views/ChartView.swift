@@ -38,6 +38,7 @@ struct ChartView: View {
                 .overlay(chartYAxis.padding(.horizontal, 4), alignment: .leading)
             
             chartDates
+                .padding(.horizontal, 4)
         }
         .font(.caption)
         .onAppear {
