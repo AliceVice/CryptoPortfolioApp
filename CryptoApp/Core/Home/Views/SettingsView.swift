@@ -25,14 +25,13 @@ struct SettingsView: View {
                 
                 // Content layer
                 List {
-                    swiftFulThinkingSection
-                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
-                    coinGeckoSection
-                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
-                    developerSection
-                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
-                    applicationSection
-                        .listRowBackground(Color.theme.secondaryText.opacity(0.2))
+                    Group {
+                        swiftFulThinkingSection
+                        coinGeckoSection
+                        developerSection
+                        applicationSection
+                    }
+                    .listRowBackground(Color.theme.secondaryText.opacity(0.2))
                 }
                 .scrollContentBackground(.hidden)
                 .font(.headline)
