@@ -9,11 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    let defaultURL = URL(string: "https://www.google.com")!
-    let youtubeURL = URL(string: "https://www.youtube.com/@SwiftfulThinking")!
-    let coffeeURL = URL(string: "https://buymeacoffee.com/nicksarno")!
-    let coingeckoURL = URL(string: "https://www.coingecko.com/")!
-    let githubURL = URL(string: "https://github.com/AliceVice")!
+    private let githubProjectLink = URL(string: "https://github.com/AliceVice/Forecastly")
+    private let coingeckoApiURL = URL(string: "https://open-meteo.com/")!
     
     var body: some View {
         NavigationStack {
@@ -26,10 +23,8 @@ struct SettingsView: View {
                 // Content layer
                 List {
                     Group {
-                        swiftFulThinkingSection
-                        coinGeckoSection
-                        developerSection
-                        applicationSection
+                        projectSection
+                        coinGeckoApiSection
                     }
                     .listRowBackground(Color.theme.secondaryText.opacity(0.2))
                 }
@@ -57,7 +52,7 @@ struct SettingsView: View {
 
 
 extension SettingsView {
-    private var swiftFulThinkingSection: some View {
+    private var projectSection: some View {
         Section {
             VStack(alignment: .leading) {
                 Image("logo")
@@ -72,14 +67,16 @@ extension SettingsView {
             }
             .padding(.vertical)
             
-            Link("Subscribe to Nick 🥳", destination: youtubeURL)
-            Link("Support his coffee addiction ☕️", destination: youtubeURL)
+            if let githubProjectLink {
+                Link("Github link to the project", destination: githubProjectLink)
+            }
+            
         } header: {
             Text("Swiftful Thinking")
         }
     }
     
-    private var coinGeckoSection: some View {
+    private var coinGeckoApiSection: some View {
         Section {
             VStack(alignment: .leading) {
                 Image("coingecko")
@@ -88,49 +85,16 @@ extension SettingsView {
                     .frame(height: 100)
                     .clipShape(.rect(cornerRadius: 10))
                 
-                Text("The cryptocurrency data that is used in this app comes from a free API provided by CoinGecko 🐸! Prices may be slightly delayed. ")
+                Text("The cryptocurrency data that is used in this app comes from a free API provided by CoinGecko! Prices may be slightly delayed.")
                     .font(.callout)
                     .fontWeight(.medium)
                     .foregroundStyle(Color.theme.accent)
             }
             .padding(.vertical)
             
-            Link("Visit coingecko 🌍", destination: coingeckoURL)
+            Link("Visit coingecko 🌍", destination: coingeckoApiURL)
         } header: {
             Text("Coingecko")
-        }
-    }
-    
-    private var developerSection: some View {
-        Section {
-            VStack(alignment: .leading) {
-                Image("water_drops")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-                    .clipShape(.rect(cornerRadius: 10))
-                
-                Text("I want to say thanks to Nick Sarno. He is such a great teacher. Thanks to him, my knowledge of SwiftUI has skyrocketed 🚀! I have experienced how to work with Combine, Core Data, Multi-Threading and MVVM architecture 🧩.")
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color.theme.accent)
-            }
-            .padding(.vertical)
-            Link("My github 🐙", destination: githubURL)
-        } header: {
-            Text("Developer")
-        }
-        .zIndex(2.0)
-    }
-    
-    private var applicationSection: some View {
-        Section {
-            Link("Terms of Service", destination: defaultURL)
-            Link("Privacy Policy", destination: defaultURL)
-            Link("Company Website", destination: defaultURL)
-            Link("Learn More", destination: defaultURL)
-        } header: {
-            Text("Application")
         }
     }
     
