@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    private let githubProjectLink = URL(string: "https://github.com/AliceVice/Forecastly")
-    private let coingeckoApiURL = URL(string: "https://open-meteo.com/")!
+    private let githubProjectLink = URL(string: "https://github.com/AliceVice/CryptoTrends")
+    private let coingeckoApiURL = URL(string: "https://docs.coingecko.com/v3.0.1/reference/introduction")!
     
     var body: some View {
         NavigationStack {
@@ -54,25 +54,62 @@ struct SettingsView: View {
 extension SettingsView {
     private var projectSection: some View {
         Section {
-            VStack(alignment: .leading) {
+            HStack(alignment: .center, spacing: 16) {
                 Image("logo")
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .scaledToFit()
+                    .frame(width: 90, height: 90)
                     .clipShape(.rect(cornerRadius: 10))
                 
-                Text("This App was made by following a @SwiftfulThinking cource on youtube. It uses MVVM Architecture, Combine and Core Data")
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color.theme.accent)
+                Text("Crypto Trends")
+                    .font(.title)
             }
-            .padding(.vertical)
+            
+            VStack(alignment: .leading, spacing: 16) {
+                Text("This app is a cryptocurrency portfolio tracker. It uses modern technologies and architecture patterns:")
+                    .font(.headline)
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Text("🎨")
+                        Text("SwiftUI: For building the app’s user interface.")
+                    }
+                    
+                    HStack {
+                        Text("🚀")
+                        Text("MVVM Architecture: For clear separation of concerns and maintainable code.")
+                    }
+                    
+                    HStack {
+                        Text("🧬")
+                        Text("Combine: For handling asynchronous network calls and data binding between components.")
+                    }
+                    
+                    HStack {
+                        Text("📦")
+                        Text("Core Data: For storing user's portfolio coins.")
+                    }
+                    
+                    HStack {
+                        Text("🗂️")
+                        Text("FileManager: To store the images into the cache directory.")
+                    }
+                    
+                    HStack {
+                        Text("📈")
+                        Text("CoinGecko API: To fetch real‑time cryptocurrency data.")
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            
             
             if let githubProjectLink {
                 Link("Github link to the project", destination: githubProjectLink)
             }
             
         } header: {
-            Text("Swiftful Thinking")
+            Text("Project")
         }
     }
     
@@ -92,7 +129,7 @@ extension SettingsView {
             }
             .padding(.vertical)
             
-            Link("Visit coingecko 🌍", destination: coingeckoApiURL)
+            Link("Visit Coingecko 🌍", destination: coingeckoApiURL)
         } header: {
             Text("Coingecko")
         }
